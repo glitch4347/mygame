@@ -1,34 +1,31 @@
 use macroquad::prelude::*;
 
-use std::collections::LinkedList;
-
-const SQUARES: i16 = 16;
-
-type Point = (i16, i16);
-
-struct Snake {
-    head: Point,
-    body: LinkedList<Point>,
-    dir: Point,
-}
 
 #[macroquad::main("Snake")]
 async fn main() {
 
-
+    let mut i = 0;
     loop {
-        clear_background(WHITE);
-        let text = "Game Over. Press [enter] to play again.";
-        let font_size = 30.;
-        let text_size = measure_text(text, None, font_size as _, 1.0);
+        clear_background(LIGHTGRAY);
 
-        draw_text(
-            text,
-            screen_width() / 2. - text_size.width / 2.,
-            screen_height() / 2. - text_size.height / 2.,
-            font_size,
-            DARKGRAY,
+        let game_size = screen_width().min(screen_height());
+        let offset_x = (screen_width() - game_size) / 2. + 10.;
+        let offset_y = (screen_height() - game_size) / 2. + 10.;
+
+        draw_rectangle(offset_x, offset_y, game_size - 20., game_size - 20., RED);
+
+        draw_line(
+            offset_x + 16  as f32,
+            offset_y,
+            offset_x + 16 as f32,
+            screen_height() - offset_y,
+            2.,
+            LIGHTGRAY,
         );
+
+        draw_circle(screen_width() / 2., i as _, 20 as _, GREEN);
+
+        i += 1;
 
         next_frame().await
     }
